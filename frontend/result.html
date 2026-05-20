@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Plan Result</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1400');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: 0.35s ease;
+        }
+
+        .overlay {
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.55);
+            padding: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .card-box {
+            width: 100%;
+            max-width: 1180px;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 26px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.32);
+            transition: 0.35s ease;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .theme-btn {
+            border: none;
+            background: linear-gradient(90deg, #111, #444);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            transition: 0.25s ease;
+            min-width: 58px;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+        }
+        .hero-section{
+            position:relative;
+            width:100%;
+            height:380px;
+            border-radius:28px;
+            overflow:hidden;
+            margin-bottom:30px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .hero-image{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+            filter:brightness(0.75);
+        }
+
+        .hero-overlay{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            padding:20px;
+            background:linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.15),
+                rgba(0,0,0,0.45)
+            );
+        }
+
+        .hero-title{
+            color:white;
+            font-size:55px;
+            font-weight:800;
+            margin-bottom:18px;
+            text-shadow:0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .hero-quote{
+            color:white;
+            font-size:24px;
+            max-width:700px;
+            line-height:1.6;
+            font-weight:500;
+            text-shadow:0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        /* MOBILE */
+
+        @media(max-width:768px){
+
+            .hero-section{
+                height:260px;
+            }
+
+            .hero-title{
+                font-size:34px;
+            }
+
+            .hero-quote{
+                font-size:18px;
+            }
+        }
+
+        /* DARK MODE */
+
+        .dark-mode .hero-overlay{
+            background:linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.35),
+                rgba(0,0,0,0.65)
+            );
+        }
+
+
+        .detail-box {
+            background: #f8f9fa;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.65rem;
+            color: #111;
+        }
+
+        .edit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .field {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #cfcfcf;
+            outline: none;
+            font-size: 15px;
+            background: #fff;
+            color: #111;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 14px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .btn-custom {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: #0d6efd;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.2s ease;
+            min-height: 46px;
+        }
+
+        .btn-custom:hover {
+            background: #0b5ed7;
+            transform: translateY(-1px);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .summary-item {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .summary-item strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .summary-item span {
+            color: #111;
+            font-weight: 700;
+        }
+
+        .plan-content {
+            background: linear-gradient(135deg, #f4f8ff, #eef4ff, #f7f9ff);
+            padding: 28px;
+            border-radius: 24px;
+            line-height: 1.9;
+            font-size: 17px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            color: #222;
+            overflow: hidden;
+        }
+
+        .section-title {
+            display: block;
+            font-size: 29px;
+            margin: 30px 0 18px;
+            padding: 14px 20px;
+            border-radius: 18px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 0.4px;
+            box-shadow: 0 8px 22px rgba(13, 110, 253, 0.18);
+            background: linear-gradient(90deg, #0d6efd, #6610f2);
+        }
+
+        .intro-title {
+            background: linear-gradient(90deg, #198754, #20c997);
+        }
+
+        .day-title {
+            background: linear-gradient(90deg, #0d6efd, #6f42c1);
+        }
+
+        .part-title {
+            display: inline-block;
+            margin: 20px 0 14px;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .morning-title {
+            background: linear-gradient(90deg, #19a974, #1dd1a1);
+        }
+
+        .afternoon-title {
+            background: linear-gradient(90deg, #ff9966, #ff5e62);
+        }
+
+        .evening-title {
+            background: linear-gradient(90deg, #7b2ff7, #f357a8);
+        }
+
+        .activity-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 18px;
+            margin: 16px 0;
+            border-radius: 18px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .activity-text {
+            flex: 1;
+            min-width: 0;
+            font-size: 18px;
+            line-height: 1.9;
+            word-break: break-word;
+        }
+
+        .inline-map-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            white-space: nowrap;
+            min-width: 120px;
+            height: 48px;
+            padding: 0 18px;
+            border-radius: 14px;
+            background: #0d6efd;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 800;
+            box-shadow: 0 8px 18px rgba(13, 110, 253, 0.18);
+            transition: 0.25s ease;
+        }
+
+        .inline-map-btn:hover {
+            background: #084298;
+            transform: translateY(-1px);
+        }
+
+        .bullet-row,
+        .para-row {
+            padding: 8px 4px;
+            margin: 6px 0;
+            line-height: 1.85;
+            color: #222;
+            font-size: 16px;
+        }
+
+        .final-map-box {
+            text-align: center;
+            margin-top: 38px;
+        }
+
+        .final-map-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: linear-gradient(90deg, #198754, #20c997);
+            color: white;
+            padding: 18px 30px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 10px 24px rgba(25, 135, 84, 0.24);
+            transition: 0.25s ease;
+        }
+
+        .final-map-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 14px 30px rgba(25, 135, 84, 0.32);
+        }
+
+        .dark-mode {
+            background: #121212 !important;
+            color: #f5f5f5 !important;
+        }
+
+        .dark-mode .card-box {
+            background: rgba(27, 27, 27, 0.96) !important;
+            color: #f5f5f5 !important;
+        }
+
+        .dark-mode .detail-box {
+            background: #232323 !important;
+            border-color: rgba(255, 255, 255, 0.06) !important;
+        }
+
+        .dark-mode .field,
+        .dark-mode .summary-item {
+            background: #2b2b2b !important;
+            color: #f5f5f5 !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .dark-mode .field label,
+        .dark-mode .summary-item strong,
+        .dark-mode .summary-item span,
+        .dark-mode h1,
+        .dark-mode h2 {
+            color: #f5f5f5 !important;
+        }
+
+        .dark-mode .form-control {
+            background: #1f1f1f !important;
+            color: #fff !important;
+            border-color: #555 !important;
+        }
+
+        .dark-mode .plan-content {
+            background: linear-gradient(135deg, #181818, #222, #1d1d1d) !important;
+            color: #f3f3f3 !important;
+        }
+
+        .dark-mode .activity-row,
+        .dark-mode .bullet-row,
+        .dark-mode .para-row {
+            background: #242424 !important;
+            color: #f5f5f5 !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .dark-mode .section-title {
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+        }
+
+        .dark-mode .inline-map-btn {
+            background: #2563eb;
+        }
+        .hero-section{
+            position:relative;
+            width:100%;
+            height:430px;
+            overflow:hidden;
+            border-radius:30px;
+            margin-bottom:30px;
+            box-shadow:0 10px 40px rgba(0,0,0,0.25);
+        }
+
+        .hero-image{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
+
+        .hero-overlay{
+            position:absolute;
+            inset:0;
+            background:rgba(0,0,0,0.35);
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+
+            text-align:center;
+            padding:20px;
+        }
+
+        .hero-title{
+            font-size:64px;
+            font-weight:900;
+            color:white;
+            margin-bottom:20px;
+            text-shadow:0 6px 18px rgba(0,0,0,0.5);
+        }
+
+        .hero-quote{
+            font-size:28px;
+            color:white;
+            font-weight:500;
+            max-width:900px;
+            text-shadow:0 3px 10px rgba(0,0,0,0.4);
+        }
+
+        @media(max-width:768px){
+
+            .hero-section{
+                height:300px;
+            }
+
+            .hero-title{
+                font-size:38px;
+            }
+
+            .hero-quote{
+                font-size:18px;
+            }
+        }
+
+        .dark-mode .final-map-btn {
+            background: linear-gradient(90deg, #14532d, #15803d);
+        }
+
+        @media (max-width: 900px) {
+            .edit-grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .activity-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .inline-map-btn {
+                width: 100%;
+            }
+
+            .hero-image-box img {
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .overlay {
+                padding: 14px;
+            }
+
+            .card-box {
+                padding: 18px;
+                border-radius: 18px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .section-title {
+                font-size: 24px;
+                padding: 12px 16px;
+            }
+
+            .part-title {
+                font-size: 18px;
+            }
+
+            .plan-content {
+                padding: 18px;
+            }
+
+            .final-map-btn {
+                width: 100%;
+                padding: 16px 18px;
+            }
+            .loading-box{
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                padding:30px 10px;
+                gap:12px;
+                font-weight:700;
+                color:#0d6efd;
+            }
+
+            .spinner{
+                width:48px;
+                height:48px;
+                border:5px solid rgba(13,110,253,0.18);
+                border-top:5px solid #0d6efd;
+                border-radius:50%;
+                animation:spin 0.9s linear infinite;
+            }
+
+            @keyframes spin{
+                to{
+                    transform:rotate(360deg);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="card-box">
+            <div class="top-bar">
+
+                <h1>🌍 Your Travel Plan</h1>
+
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+
+                    <a
+                        href="history.html"
+                        class="theme-btn"
+                        style="text-decoration:none;"
+                    >
+                        📚 History
+                    </a>
+
+                    <button
+                        class="theme-btn"
+                        id="themeButton"
+                        onclick="toggleTheme()"
+                    >
+                        🌙
+                    </button>
+
+                </div>
+
+            </div>
+
+           <div class="hero-section">
+          <img
+            id="destinationImage"
+            src="assets/banner.jpg"
+            class="hero-image"
+            alt="Travel Banner"
+        />
+            <div class="hero-overlay">
+                <h1 class="hero-title" id="dynamicTitle">
+                    🌍 Explore The World
+                </h1>
+
+                <p class="hero-quote">
+                    “Travel is the only thing you buy that makes you richer.”
+                </p>
+            </div>
+        </div>
+
+            <div class="detail-box">
+                <h2>Edit Your Details</h2>
+
+                <div class="edit-grid">
+                    <div class="field">
+                        <label for="editDestination">Destination</label>
+                        <input type="text" id="editDestination" class="form-control" placeholder="Enter destination">
+                    </div>
+
+                    <div class="field">
+                        <label for="editBudget">Budget</label>
+                        <input type="number" id="editBudget" class="form-control" placeholder="Enter budget">
+                    </div>
+
+                    <div class="field">
+                        <label for="editDays">Days</label>
+                        <input type="number" id="editDays" class="form-control" placeholder="Enter days">
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button
+                        class="btn-custom"
+                        id="updateBtn"
+                        onclick="updatePlan()"
+                        >Update Plan</button>
+                    <a
+                        href="planner.html"
+                        class="btn-custom"
+                        id="backBtn"
+                        >Back to Planner</a>
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <h2>Entered Details</h2>
+
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>Destination</strong>
+                        <span id="showDestination">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <strong>Budget</strong>
+                        ₹<span id="showBudget">-</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <strong>Days</strong>
+                        <span id="showDays">-</span> Days
+                    </div>
+                </div>
+            </div>
+
+            <div id="loadingBox" class="loading-box" style="display:none;">
+                <div class="spinner"></div>
+                <p>Generating your travel plan...</p>
+            </div>
+            
+
+            <div class="detail-box">
+                <h2>Generated Plan</h2>
+                <div id="planText" class="plan-content">Generating plan...</div>
+            </div>
+            <button class="btn-custom" onclick="copyPlan()">Copy Plan</button>
+        </div>
+    </div>
+
+    <script>
+    function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+
+        const btn = document.getElementById("themeButton");
+        if (btn) {
+            btn.innerHTML = document.body.classList.contains("dark-mode") ? "☀" : "🌙";
+        }
+    }
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    function cleanText(text) {
+        return String(text)
+            .replace(/\*\*/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    function buildMapButton(query) {
+        const safeQuery = encodeURIComponent(query);
+        return `
+            <a class="inline-map-btn"
+               href="https://www.google.com/maps/search/${safeQuery}"
+               target="_blank"
+               rel="noopener noreferrer">
+               📍 Maps
+            </a>
+        `;
+    }
+
+    function formatPlan(plan, destination) {
+        const lines = String(plan).replace(/\r\n/g, "\n").split("\n");
+
+        let html = "";
+        let inDaySection = false;
+
+        for (const rawLine of lines) {
+            const line = rawLine.trim();
+            if (!line) continue;
+
+            // Heading levels from AI markdown
+            if (/^#\s+/.test(line)) {
+                const title = cleanText(line.replace(/^#\s+/, ""));
+                html += `<div class="section-title intro-title">${escapeHtml(title)}</div>\n`;
+                inDaySection = false;
+                continue;
+            }
+
+            if (/^##\s+/.test(line)) {
+                const title = cleanText(line.replace(/^##\s+/, ""));
+                const lower = title.toLowerCase();
+
+                if (lower.includes("day 1") || lower.includes("day 2") || lower.includes("day 3") || lower.includes("day 4")) {
+                    html += `<div class="section-title day-title">${escapeHtml(title)}</div>\n`;
+                    inDaySection = true;
+                } else if (lower.includes("introduction")) {
+                    html += `<div class="section-title intro-title">${escapeHtml(title)}</div>\n`;
+                    inDaySection = false;
+                } else {
+                    html += `<div class="section-title">${escapeHtml(title)}</div>\n`;
+                    inDaySection = false;
+                }
+                continue;
+            }
+
+            if (/^###\s+/.test(line)) {
+                const title = cleanText(line.replace(/^###\s+/, ""));
+                const lower = title.toLowerCase();
+
+                if (lower.includes("morning")) {
+                    html += `<div class="part-title morning-title">🌅 Morning Activities</div>\n`;
+                } else if (lower.includes("afternoon")) {
+                    html += `<div class="part-title afternoon-title">☀ Afternoon Activities</div>\n`;
+                } else if (lower.includes("evening")) {
+                    html += `<div class="part-title evening-title">🌙 Evening Activities</div>\n`;
+                } else {
+                    html += `<div class="part-title morning-title">${escapeHtml(title)}</div>\n`;
+                }
+                continue;
+            }
+
+            // Bold headings if the AI uses **text**
+            if (/^\*\*.*\*\*$/.test(line)) {
+                const title = cleanText(line.replace(/^\*\*|\*\*$/g, ""));
+                const lower = title.toLowerCase();
+
+                if (lower.includes("introduction")) {
+                    html += `<div class="section-title intro-title">${escapeHtml(title)}</div>\n`;
+                    inDaySection = false;
+                } else if (lower.includes("day 1") || lower.includes("day 2") || lower.includes("day 3") || lower.includes("day 4")) {
+                    html += `<div class="section-title day-title">${escapeHtml(title)}</div>\n`;
+                    inDaySection = true;
+                } else if (lower.includes("morning")) {
+                    html += `<div class="part-title morning-title">${escapeHtml(title)}</div>\n`;
+                } else if (lower.includes("afternoon")) {
+                    html += `<div class="part-title afternoon-title">${escapeHtml(title)}</div>\n`;
+                } else if (lower.includes("evening")) {
+                    html += `<div class="part-title evening-title">${escapeHtml(title)}</div>\n`;
+                } else {
+                    html += `<div class="section-title">${escapeHtml(title)}</div>\n`;
+                }
+                continue;
+            }
+
+            // Bullet lines
+            const bulletMatch = line.match(/^[•\-\*]\s*(.*)$/);
+            if (bulletMatch) {
+                const bulletText = cleanText(bulletMatch[1]);
+
+                // Only show map buttons inside itinerary/day sections
+                if (inDaySection) {
+                    // Use the whole bullet text as map search text.
+                    // This works for any state/place and does not depend on a hardcoded list.
+                    const mapQuery = bulletText;
+                    html += `
+                        <div class="activity-row">
+                            <div class="activity-text">• ${escapeHtml(bulletText)}</div>
+                            ${buildMapButton(mapQuery)}
+                        </div>
+                    `;
+                } else {
+                    html += `<div class="bullet-row">• ${escapeHtml(bulletText)}</div>\n`;
+                }
+                continue;
+            }
+
+            // Plain text
+            html += `<div class="para-row">${escapeHtml(line)}</div>\n`;
+        }
+
+        // Final map button for the entered destination
+        html += `
+            <div class="final-map-box">
+                <button class="final-map-btn"
+                    type="button"
+                    onclick="window.open('https://www.google.com/maps/search/${encodeURIComponent(destination)}','_blank','noopener,noreferrer')">
+                    🌍 Explore ${escapeHtml(destination)} on Google Maps
+                </button>
+            </div>
+        `;
+
+        return html;
+    }
+
+    async function generatePlan(destination, budget, days) {
+        const planText = document.getElementById("planText");
+        const loadingBox =
+                document.getElementById("loadingBox");
+
+            const updateBtn =
+                document.getElementById("updateBtn");
+
+            const backBtn =
+                document.getElementById("backBtn");
+
+            const destinationInput =
+                document.getElementById("editDestination");
+
+            const budgetInput =
+                document.getElementById("editBudget");
+
+            const daysInput =
+                document.getElementById("editDays");
+        
+
+        try {
+            loadingBox.style.display = "flex";
+            planText.innerHTML = "";
+
+            loadingBox.style.display = "flex";
+
+            updateBtn.disabled = true;
+            backBtn.disabled = true;
+
+            destinationInput.disabled = true;
+            budgetInput.disabled = true;
+            daysInput.disabled = true;
+
+            const response = await fetch("http://127.0.0.1:5000/generate-plan", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ destination, budget, days })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                loadingBox.style.display = "none";
+
+                updateBtn.disabled = false;
+                backBtn.disabled = false;
+
+                destinationInput.disabled = false;
+                budgetInput.disabled = false;
+                daysInput.disabled = false;
+
+                planText.innerHTML = "Backend Error";
+
+                return;
+            }
+
+            const rendered =
+                formatPlan(data.plan, destination);
+
+            planText.innerHTML =
+                rendered;
+
+            loadingBox.style.display = "none";
+
+            updateBtn.disabled = false;
+            backBtn.disabled = false;
+
+            destinationInput.disabled = false;
+            budgetInput.disabled = false;
+            daysInput.disabled = false;
+
+            const savedPlan = {
+                destination,
+                budget,
+                days,
+                plan: data.plan,
+                createdAt: new Date().toISOString()
+            };
+
+            const history = JSON.parse(localStorage.getItem("tripHistory")) || [];
+            history.unshift(savedPlan);
+            localStorage.setItem("tripHistory", JSON.stringify(history.slice(0, 20)));
+        } catch (error) {
+            loadingBox.style.display = "none";
+            loadingBox.style.display = "none";
+
+            updateBtn.disabled = false;
+            backBtn.disabled = false;
+
+            destinationInput.disabled = false;
+            budgetInput.disabled = false;
+            daysInput.disabled = false;
+            planText.innerHTML = "Error generating plan";
+        }
+    }
+    async function loadPlan() {
+        const destination = sessionStorage.getItem("destination") || "";
+        const budget = sessionStorage.getItem("budget") || "";
+        const days = sessionStorage.getItem("days") || "";
+
+
+
+
+        document.getElementById("dynamicTitle").innerText = "🌍 Explore " + destination;
+
+        document.getElementById("editDestination").value = destination;
+        document.getElementById("editBudget").value = budget;
+        document.getElementById("editDays").value = days;
+
+        document.getElementById("showDestination").innerText = destination || "-";
+        document.getElementById("showBudget").innerText = budget || "-";
+        document.getElementById("showDays").innerText = days || "-";
+        
+        await generatePlan(destination, budget, days);
+    }
+
+    async function updatePlan() {
+        const destination = document.getElementById("editDestination").value.trim();
+        const budget = document.getElementById("editBudget").value.trim();
+        const days = document.getElementById("editDays").value.trim();
+
+        if (destination === "" || budget === "" || days === "") {
+            alert("Please fill all fields");
+            return;
+        }
+
+        sessionStorage.setItem("destination", destination);
+        sessionStorage.setItem("budget", budget);
+        sessionStorage.setItem("days", days);
+
+        document.getElementById("showDestination").innerText = destination;
+        document.getElementById("showBudget").innerText = budget;
+        document.getElementById("showDays").innerText = days;
+
+        document.getElementById("planText").innerHTML = "Updating plan...";
+
+        document.getElementById("destinationImage").src = "assets/banner.jpg";
+        document.getElementById("dynamicTitle").innerText = "🌍 Explore " + destination;
+
+        document.getElementById("dynamicTitle").innerText =
+        "🌍 Explore " + destination;
+
+        await generatePlan(destination, budget, days);
+    }
+
+    window.onload = loadPlan;
+
+    async function copyPlan() {
+    const text = document.getElementById("planText").innerText;
+
+    try {
+        await navigator.clipboard.writeText(text);
+        alert("Plan copied to clipboard");
+    } catch (error) {
+        alert("Copy failed");
+    }
+}
+
+</script>
+</body>
+</html>

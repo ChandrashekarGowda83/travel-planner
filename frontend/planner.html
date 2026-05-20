@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Travel Planner Dashboard</title>
+
+    <!-- Bootstrap -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="planner-page">
+
+    <div class="planner-overlay">
+
+        <div class="container py-5">
+
+            <!-- TOP BAR -->
+
+           <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+                <h1 class="text-white">
+                    🌍 AI Travel Planner
+                </h1>
+
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <a
+                        href="history.html"
+                        class="btn btn-info"
+                    >
+                        📚 Trip History
+                    </a>
+
+                    <button
+                        class="btn btn-warning"
+                        onclick="adminLogin()"
+                    >
+                        View Registered Users
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- WELCOME MESSAGE -->
+
+            <div class="welcome-box mb-4">
+
+                <h2 id="welcomeText">
+                    Welcome Traveler 🚀
+                </h2>
+
+                <p>
+                    Plan your perfect AI-powered trip here.
+                </p>
+
+            </div>
+
+            <!-- PLANNER CARD -->
+
+            <div class="planner-card shadow-lg">
+
+                <!-- DESTINATION -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Destination
+                    </label>
+
+                    <input
+                        type="text"
+                        id="destination"
+                        class="form-control"
+                        placeholder="Enter destination"
+                    >
+
+                </div>
+
+                <!-- BUDGET -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Budget
+                    </label>
+
+                    <input
+                        type="number"
+                        id="budget"
+                        class="form-control"
+                        placeholder="Enter budget"
+                    >
+
+                </div>
+
+                <!-- DAYS -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Days
+                    </label>
+
+                    <input
+                        type="number"
+                        id="days"
+                        class="form-control"
+                        placeholder="Number of days"
+                    >
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button
+                    class="btn btn-primary w-100 py-2"
+                    onclick="goToResultPage()"
+                >
+                    ✈ Generate Travel Plan
+                </button>
+            </div>
+
+            <!-- RESULT -->
+
+            <div class="result-box mt-4">
+
+                <h3>
+                    ✈ Your Travel Plan
+                </h3>
+
+                <pre id="result">
+Your AI-generated travel plan will appear here...
+                </pre>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

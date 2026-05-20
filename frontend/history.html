@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip History</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eef4ff, #f8fbff);
+            color: #111;
+        }
+
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            background: #0d6efd;
+        }
+
+        .btn:hover {
+            background: #0b5ed7;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .plan-preview {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 14px;
+            max-height: 220px;
+            overflow: auto;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .actions {
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .secondary {
+            background: #6c757d;
+        }
+
+        .secondary:hover {
+            background: #5c636a;
+        }
+
+        .empty {
+            background: white;
+            padding: 26px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="top-bar">
+            <h1>📚 Trip History</h1>
+            <a class="btn" href="planner.html">Back to Planner</a>
+        </div>
+
+        <div id="historyContainer"></div>
+    </div>
+
+    <script>
+        function loadHistory() {
+            const container = document.getElementById("historyContainer");
+            const history = JSON.parse(localStorage.getItem("tripHistory")) || [];
+
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <h2>No saved trips yet</h2>
+                        <p>Your generated travel plans will appear here after you create them.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="grid">
+                    ${history.map((trip, index) => {
+                        const preview = (trip.plan || "").slice(0, 350) + ((trip.plan || "").length > 350 ? "..." : "");
+                        return `
+                            <div class="card">
+                                <h2>${trip.destination || "Unknown Destination"}</h2>
+                                <div class="meta">
+                                    <span><strong>Budget:</strong> ₹${trip.budget || "-"}</span>
+                                    <span><strong>Days:</strong> ${trip.days || "-"}</span>
+                                    <span><strong>Saved:</strong> ${trip.createdAt ? new Date(trip.createdAt).toLocaleString() : "-"}</span>
+                                </div>
+
+                                <div class="plan-preview">${preview}</div>
+
+                                <div class="actions">
+                                    <button class="btn" onclick="openTrip(${index})">Open</button>
+                                    <button class="btn secondary" onclick="deleteTrip(${index})">Delete</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("")}
+                </div>
+            `;
+        }
+
+        function openTrip(index) {
+            const history = JSON.parse(localStorage.getItem("tripHistory")) || [];
+            const trip = history[index];
+            if (!trip) return;
+
+            sessionStorage.setItem("destination", trip.destination || "");
+            sessionStorage.setItem("budget", trip.budget || "");
+            sessionStorage.setItem("days", trip.days || "");
+
+            window.location.href = "result.html";
+        }
+
+        function deleteTrip(index) {
+            const history = JSON.parse(localStorage.getItem("tripHistory")) || [];
+            history.splice(index, 1);
+            localStorage.setItem("tripHistory", JSON.stringify(history));
+            loadHistory();
+        }
+
+        window.onload = loadHistory;
+    </script>
+</body>
+</html>
